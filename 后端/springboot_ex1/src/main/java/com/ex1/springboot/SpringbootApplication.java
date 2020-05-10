@@ -1,13 +1,13 @@
-package org.sang.ex1;
+package com.ex1.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Ex1Application {
+public class SpringbootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Ex1Application.class, args);
+        SpringApplication.run(SpringbootApplication.class, args);
     }
 
 }
