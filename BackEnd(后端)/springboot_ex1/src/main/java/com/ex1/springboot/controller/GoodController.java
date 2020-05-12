@@ -1,7 +1,8 @@
-package com.ex1.springboot.web;
+package com.ex1.springboot.controller;
 
 import com.ex1.springboot.dao.GoodDAO;
 import com.ex1.springboot.pojo.Goods;
+import com.ex1.springboot.service.IGoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,18 +13,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class GoodController {
+
     @Autowired
-    GoodDAO goodDAO;
+    private IGoodService goodService;
 
     //获取全部商品
     @RequestMapping("/listGoods")
     public List<Goods> listGoods() throws Exception {
-        return goodDAO.findAll();
+        return goodService.findAll();
     }
 
     @RequestMapping("/listuserGoods")
     public List<Goods> listuserGoods(@RequestParam(value = "userid") String userid) throws Exception {
-        return goodDAO.findByUserid(Integer.parseInt(userid));
+        return goodService.findByUserid(Integer.parseInt(userid));
     }
     //添加一个商品
     @RequestMapping("/addGood")
@@ -39,7 +41,7 @@ public class GoodController {
             good.setPrice(price);
             good.setInfo(info);
             good.setIsbuy(isbuy);
-            goodDAO.save(good);
+            goodService.addGood(good);
             System.out.println("userid: " + userid
                     + "\ngoodname: " + goodname
                     + "\nprice: " + price
@@ -57,7 +59,7 @@ public class GoodController {
         int id = Integer.parseInt(goodid);
         System.out.println("goodid: "+id);
         try{
-            goodDAO.deleteById(id);
+            goodService.deleteById(id);
             return true;
         }
         catch (Exception e){
@@ -71,10 +73,7 @@ public class GoodController {
         int id = Integer.parseInt(goodid);
 
         try{
-            List<Goods> goodslist = goodDAO.findByGoodid(id);
-            Goods good = goodslist.get(0);
-            good.setIsbuy(0);
-            goodDAO.save(good);
+            goodService.updateGood(id);
             System.out.println("goodid: "+id);
             return true;
         }
